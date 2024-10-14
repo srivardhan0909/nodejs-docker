@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        PATH = "$PATH:/opt/homebrew/bin"
+        PATH = "$PATH:/usr/local/bin:/opt/homebrew/bin"  
     }
     stages {
         stage("Checkout") {
@@ -9,7 +9,7 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Test') {
+        stage('Install npm packages') {
             steps {
                 // Install npm packages
                 sh '/opt/homebrew/bin/npm install'
@@ -20,11 +20,13 @@ pipeline {
         }
         stage("Build") {
             steps {
+                // Run build command
                 sh 'npm run build'
             }
         }
-        stage("Build Image"){
-            steps{
+        stage('Docker Build') {
+            steps {
+                // Build Docker image
                 sh 'docker build -t my-node-app:1.0 .'
             }
         }
