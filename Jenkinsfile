@@ -30,5 +30,15 @@ pipeline {
                 sh 'docker build -t my-node-app:1.0 .'
             }
         }
+        stage('Docker Push'){
+            steps{
+                withCredentials([usernamePassword(credentialsId: 'docker_cred' , passwordVariable:'DOCKERHUB_PASSWORD' , usernameVariable:'DOCKERHUB_USERNAME')]){
+                    sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                    sh 'docker tag my-node-app:1.0 srivardhan0909/nodejs-docker'
+                    sh 'docker push srivardhan0909/nodejs-docker'
+                    sh 'docker logout'
+                }
+            }
+        }
     }
 }
