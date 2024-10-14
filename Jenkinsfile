@@ -8,7 +8,7 @@ pipeline{
         }
         stage("Test"){
             steps{
-                sh "/usr/bin/npm install"
+                sh "/opt/homebrew/bin/npm install"
             }
         }
         stage("Build"){
