@@ -6,11 +6,14 @@ pipeline{
                 checkout scm
             }
         }
-        stage("Test"){
-            steps{
-                sh "/opt/homebrew/bin/npm install"
-            }
-        }
+        stage('Install npm packages') {
+    environment {
+        PATH = "$PATH:/opt/homebrew/bin"
+    }
+    steps {
+        sh '/opt/homebrew/bin/npm install'
+    }
+}
         stage("Build"){
             steps{
                 sh 'npm run build'
